@@ -254,9 +254,61 @@ body {
   100% { transform: translateX(100%); }
 }
 
+/* ... existing styles ... */
 @keyframes scan {
   0%, 100% { top: 0%; opacity: 0; }
   5% { opacity: 1; }
   95% { opacity: 1; }
   100% { top: 100%; opacity: 0; }
+}
+
+/* --- Responsive Enhancements --- */
+
+/* Responsive Container Padding */
+@media (max-width: 640px) {
+  .max-w-7xl {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+/* Tablet & Mobile Table Fixes */
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  min-width: 100%;
+}
+
+@media (max-width: 768px) {
+  th, td {
+    white-space: nowrap;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+/* Typography Scale */
+@media (max-width: 640px) {
+  h1 { font-size: 1.875rem !important; line-height: 2.25rem !important; }
+  h2 { font-size: 1.5rem !important; line-height: 2rem !important; }
+  .text-5xl { font-size: 2.25rem !important; line-height: 2.5rem !important; }
+  .text-4xl { font-size: 1.875rem !important; line-height: 2.25rem !important; }
+  .text-3xl { font-size: 1.5rem !important; line-height: 2rem !important; }
+}
+
+/* Safe Area Insets for Mobile Browser UI */
+@supports (padding: env(safe-area-inset-bottom)) {
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Fluid spacing utilities */
+.fluid-p {
+  padding: clamp(1rem, 5vw, 2.5rem);
+}
+.fluid-gap {
+  gap: clamp(1rem, 3vw, 2rem);
 }

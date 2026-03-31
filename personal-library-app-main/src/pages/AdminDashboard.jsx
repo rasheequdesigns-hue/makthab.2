@@ -92,21 +92,23 @@ export default function AdminDashboard() {
             </p>
           </div>
           
-          <div className="flex bg-white dark:bg-gray-800 p-1 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm overflow-x-auto">
-            <AdminTab active={activeTab === 'books'} onClick={() => setActiveTab('books')} icon={<BookPlus size={18} />} label="Books" />
-            <AdminTab active={activeTab === 'students'} onClick={() => setActiveTab('students')} icon={<Users size={18} />} label="Students" />
-            <AdminTab active={activeTab === 'requests'} onClick={() => setActiveTab('requests')} icon={
-              <div className="relative">
-                <Clock size={18} />
-                {pendingRequests.length > 0 && (
-                  <span className="absolute -top-1 -right-1 flex h-3 w-3 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-white">
-                    {pendingRequests.length}
-                  </span>
-                )}
-              </div>
-            } label="Requests" />
-            <AdminTab active={activeTab === 'analytics'} onClick={() => setActiveTab('analytics')} icon={<BarChart3 size={18} />} label="Analytics" />
-            <AdminTab active={activeTab === 'qrcodes'} onClick={() => setActiveTab('qrcodes')} icon={<QrCode size={18} />} label="QR Codes" />
+          <div className="flex bg-white dark:bg-gray-800 p-1 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm overflow-x-auto no-scrollbar touch-pan-x">
+            <div className="flex min-w-max">
+              <AdminTab active={activeTab === 'books'} onClick={() => setActiveTab('books')} icon={<BookPlus size={18} />} label="Books" />
+              <AdminTab active={activeTab === 'students'} onClick={() => setActiveTab('students')} icon={<Users size={18} />} label="Students" />
+              <AdminTab active={activeTab === 'requests'} onClick={() => setActiveTab('requests')} icon={
+                <div className="relative">
+                  <Clock size={18} />
+                  {pendingRequests.length > 0 && (
+                    <span className="absolute -top-1 -right-1 flex h-3 w-3 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-white">
+                      {pendingRequests.length}
+                    </span>
+                  )}
+                </div>
+              } label="Requests" />
+              <AdminTab active={activeTab === 'analytics'} onClick={() => setActiveTab('analytics')} icon={<BarChart3 size={18} />} label="Analytics" />
+              <AdminTab active={activeTab === 'qrcodes'} onClick={() => setActiveTab('qrcodes')} icon={<QrCode size={18} />} label="QR Codes" />
+            </div>
           </div>
         </div>
 
@@ -173,13 +175,13 @@ export default function AdminDashboard() {
 
              {/* Books List Grid Table View */}
              <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
-                <div className="overflow-x-auto">
-                   <table className="w-full text-left text-sm text-gray-600 dark:text-gray-300">
+                <div className="overflow-x-auto selection:bg-blue-100">
+                   <table className="min-w-[600px] w-full text-left text-sm text-gray-600 dark:text-gray-300">
                       <thead className="bg-gray-50 dark:bg-gray-700/50 text-xs uppercase font-semibold text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">
                          <tr>
-                            <th className="px-6 py-4">Book Details</th>
-                            <th className="px-6 py-4">Status</th>
-                            <th className="px-6 py-4 text-right">Actions</th>
+                            <th className="px-4 sm:px-6 py-4">Book Details</th>
+                            <th className="px-4 sm:px-6 py-4">Status</th>
+                            <th className="px-4 sm:px-6 py-4 text-right">Actions</th>
                          </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -188,25 +190,25 @@ export default function AdminDashboard() {
                          )}
                          {books.map(book => (
                            <tr key={book.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors group">
-                              <td className="px-6 py-4">
-                                 <div className="flex items-center gap-4">
+                              <td className="px-4 sm:px-6 py-4">
+                                 <div className="flex items-center gap-3 sm:gap-4">
                                     {book.coverUrl ? (
-                                      <img src={book.coverUrl} className="w-12 h-16 object-cover rounded shadow-sm border border-gray-100 dark:border-gray-600" />
+                                      <img src={book.coverUrl} className="w-10 sm:w-12 h-14 sm:h-16 object-cover rounded shadow-sm border border-gray-100 dark:border-gray-600 shrink-0" />
                                     ) : (
-                                      <div className="w-12 h-16 bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded flex items-center justify-center shadow-sm">
+                                      <div className="w-10 sm:w-12 h-14 sm:h-16 bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded flex items-center justify-center shadow-sm shrink-0">
                                          <BookPlus size={16} className="text-gray-400" />
                                       </div>
                                     )}
-                                    <div>
-                                       <div className="font-medium text-gray-900 dark:text-white">{book.title}</div>
-                                       <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{book.author} • {book.category}</div>
+                                    <div className="min-w-0">
+                                       <div className="font-medium text-gray-900 dark:text-white truncate">{book.title}</div>
+                                       <div className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 mt-1 truncate">{book.author} • {book.category}</div>
                                     </div>
                                  </div>
                               </td>
-                              <td className="px-6 py-4 align-middle">
+                              <td className="px-4 sm:px-6 py-4 align-middle">
                                  <button 
                                    onClick={() => book.status === 'Lent Out' ? returnBook(book.id) : setLendingModalFor(book)}
-                                   className={`px-3 py-1 rounded-full text-xs font-semibold
+                                   className={`px-3 py-1 rounded-full text-[10px] sm:text-xs font-semibold whitespace-nowrap
                                      ${book.status === 'Lent Out' 
                                        ? 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-400 dark:hover:bg-yellow-900/50' 
                                        : 'bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50'}`}
@@ -214,11 +216,11 @@ export default function AdminDashboard() {
                                    {book.status === 'Lent Out' ? `Lent to: ${book.borrowerName}` : 'Available'}
                                  </button>
                               </td>
-                              <td className="px-6 py-4 text-right align-middle text-gray-400 dark:text-gray-500">
-                                 <div className="flex items-center justify-end gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
-                                    <button onClick={() => setViewQrModal(book)} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md hover:text-blue-600 dark:hover:text-blue-400" title="View QR"><ScanLine size={18} /></button>
-                                    <button onClick={() => { setIsEditing(book.id); setFormData(book); }} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md hover:text-blue-600 dark:hover:text-blue-400" title="Edit"><Edit3 size={18} /></button>
-                                    <button onClick={() => deleteBook(book.id)} className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md hover:text-red-600 dark:hover:text-red-400" title="Delete"><Trash2 size={18} /></button>
+                              <td className="px-4 sm:px-6 py-4 text-right align-middle text-gray-400 dark:text-gray-500">
+                                 <div className="flex items-center justify-end gap-1 sm:gap-2">
+                                    <button onClick={() => setViewQrModal(book)} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md hover:text-blue-600 dark:hover:text-blue-400 transition-colors" title="View QR"><ScanLine size={16} /></button>
+                                    <button onClick={() => { setIsEditing(book.id); setFormData(book); }} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md hover:text-blue-600 dark:hover:text-blue-400 transition-colors" title="Edit"><Edit3 size={16} /></button>
+                                    <button onClick={() => {if(window.confirm('Delete this book?')) deleteBook(book.id)}} className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md hover:text-red-600 dark:hover:text-red-400 transition-colors" title="Delete"><Trash2 size={16} /></button>
                                  </div>
                               </td>
                            </tr>
@@ -239,14 +241,14 @@ export default function AdminDashboard() {
                    <p className="text-sm text-gray-500 dark:text-gray-400">Review and manage book reservation requests from students.</p>
                 </div>
                 <div className="overflow-x-auto">
-                   <table className="w-full text-left text-sm text-gray-600 dark:text-gray-300">
+                   <table className="min-w-[700px] w-full text-left text-sm text-gray-600 dark:text-gray-300">
                       <thead className="bg-gray-50 dark:bg-gray-700/50 text-xs uppercase font-semibold text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">
                          <tr>
-                            <th className="px-6 py-4">Book Title</th>
-                            <th className="px-6 py-4">Student Name</th>
-                            <th className="px-6 py-4">Requested date</th>
-                            <th className="px-6 py-4">Status</th>
-                            <th className="px-6 py-4 text-right">Actions</th>
+                            <th className="px-4 sm:px-6 py-4">Book Title</th>
+                            <th className="px-4 sm:px-6 py-4">Student Name</th>
+                            <th className="px-4 sm:px-6 py-4">Requested date</th>
+                            <th className="px-4 sm:px-6 py-4">Status</th>
+                            <th className="px-4 sm:px-6 py-4 text-right">Actions</th>
                          </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -255,35 +257,35 @@ export default function AdminDashboard() {
                          )}
                          {[...reservationRequests].reverse().map(request => (
                            <tr key={request.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
-                              <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                              <td className="px-4 sm:px-6 py-4 font-medium text-gray-900 dark:text-white">
                                  {request.bookTitle}
                               </td>
-                              <td className="px-6 py-4">
+                              <td className="px-4 sm:px-6 py-4">
                                  {request.studentName}
                               </td>
-                              <td className="px-6 py-4 text-xs text-gray-500">
+                              <td className="px-4 sm:px-6 py-4 text-[10px] sm:text-xs text-gray-500">
                                  {new Date(request.timestamp).toLocaleString()}
                               </td>
-                              <td className="px-6 py-4">
-                                 <span className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
+                              <td className="px-4 sm:px-6 py-4">
+                                 <span className={`px-2 py-1 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider
                                    ${request.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
                                      request.status === 'approved' ? 'bg-green-100 text-green-800' : 
                                      'bg-red-100 text-red-800'}`}>
                                    {request.status}
                                  </span>
                               </td>
-                              <td className="px-6 py-4 text-right">
+                              <td className="px-4 sm:px-6 py-4 text-right">
                                  {request.status === 'pending' && (
-                                   <div className="flex justify-end gap-2">
+                                   <div className="flex justify-end gap-1 sm:gap-2">
                                       <button 
                                         onClick={() => approveReservation(request.id)}
-                                        className="px-3 py-1 bg-green-600 text-white rounded text-xs font-medium hover:bg-green-700 transition-colors"
+                                        className="px-2 sm:px-3 py-1 bg-green-600 text-white rounded text-[10px] sm:text-xs font-medium hover:bg-green-700 transition-colors"
                                       >
                                         Approve
                                       </button>
                                       <button 
                                         onClick={() => rejectReservation(request.id)}
-                                        className="px-3 py-1 bg-red-600 text-white rounded text-xs font-medium hover:bg-red-700 transition-colors"
+                                        className="px-2 sm:px-3 py-1 bg-red-600 text-white rounded text-[10px] sm:text-xs font-medium hover:bg-red-700 transition-colors"
                                       >
                                         Reject
                                       </button>
